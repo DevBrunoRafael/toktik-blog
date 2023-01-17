@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <title>tokTik</title>
+
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .my-nav{
+      padding: 0 2rem;
+      height: 4rem;
+      background: #ffffff;;
+      box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
+    }
+
+    .my-nav > div > a{
+      font-size: 25px;
+      font-weight: 700;
+    }
+
+    .my-nav > div > div > button{
+      margin-left: .5rem;
+    }
+
+    .main{
+      margin-top: 5rem;
+      height: 85vh;
+      display: flex;
+    }
+    .profile {
+      height: 100%;
+      flex: 2;
+    }
+    .feed{
+      height: 100%;
+      flex: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1em;
+      overflow-y: scroll;
+    }
+
+    .profile .content{
+      width: 100%;
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
+    }
+
+    .profile .box-inf{
+      margin-top: 2rem;
+    }
+
+    .profile .box-inf h3{
+      font-size: 16pt;
+    }
+    .profile .box-inf p{
+      font-size: 12pt;
+    }
+
+    .friends{
+      margin: 1rem 4rem;
+    }
+    .friends h6{
+      font-weight: 700;
+      line-height: 3;
+    }
+
+    .box-shadow{
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+
+
+    <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary my-nav">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">TokTik</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+
+          <!-- Button open search pub modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchPub">
+            Buscar publicação
+          </button>
+
+          <!-- Button open create pub modal -->
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createPub">
+            Criar publicação
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+
+
+      <!-- create pub modal -->
+    <div class="modal fade" id="createPub" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel1">Criar publicação</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- form pub -->
+            <form action="/toktik/new-pub" method="post">
+              <div class="mb-3">
+                <label for="name" class="form-label">Nome da publicação</label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Informe o nome...">
+              </div>
+              <div class="mb-3">
+                <label for="text" class="form-label">Texto da publicação</label>
+                <textarea class="form-control" name="text" id="text" rows="3" placeholder="Digite algo..."></textarea>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Criar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- search pub modal -->
+    <div class="modal fade" id="searchPub" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel2">Buscar publicação</h1>
+            <button id="searchClose" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+            <form id="searchForm" class="d-flex" role="search">
+              <input id="searchInput" class="form-control me-1" type="search" name="text-input" placeholder="Pesquisar publicações" aria-label="Search">
+              <button id="searchButton" class="btn btn-primary" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </form>
+            <br>
+
+            <!-- js cards render -->
+            <div  id="resultSearchBox"></div>
+
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </header>
+
+  <main class="main">
+
+
+
+    <section class="profile">
+      <div class="content">
+        <div class="box-image">
+          <img 
+            style="border-radius: 50%;" 
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXk5ueutLfn6eqrsbTp6+zg4uOwtrnJzc/j5earsbW0uby4vcDQ09XGyszU19jd3+G/xMamCvwDAAAFLklEQVR4nO2d2bLbIAxAbYE3sDH//7WFbPfexG4MiCAcnWmnrzkjIRaD2jQMwzAMwzAMwzAMwzAMwzAMwzAMwzAMwzAMwzAMw5wQkHJczewxZh2lhNK/CBOQo1n0JIT74/H/qMV0Z7GU3aCcVPuEE1XDCtVLAhgtpme7H0s1N1U7QjO0L8F7llzGeh1hEG/8Lo7TUmmuSrOfns9xnGXpXxsONPpA/B6OqqstjC6Ax/0ujkNdYQQbKNi2k64qiiEZ+ohi35X+2YcZw/WujmslYewiAliVYrxgJYrdwUmwXsU+RdApUi83oNIE27YvrfB/ZPg8+BJETXnqh9CVzBbTQHgojgiCvtqU9thFJg/CKz3VIMKMEkIXxIWqIpIg2SkjYj+xC816mrJae2aiWGykxRNsW0UwiJghJDljYI5CD8GRiCtIsJxizYUPQ2pzItZy5pcisTRdk/a9m4amtNNfBuQkdVhSaYqfpNTSFGfb9GRIakrE2Pm+GFLaCQPqiu0OpWP+HMPQQcgQMiQprWXNmsVwIjQjYi/ZrhAqNTCgr2gu0Jnz85RSSjso0HkMFZ0YZjKkc26a/jlmh9JiDyDxi9oeorTYAzZkwwoMz19pzj9bnH/GP/+qbchjSGflneWYhtTuKdMOmNKZcJ5TjInQKcYXnESd/jQxy0ENpULTNGOGgxpap/oyw9pbUAqhfx2Dbkhovvfgz4iUzoM9+GlK6/Mh4q29hyC1mwro30hpVVLPF9wYQr71RazOeM5/cw81iBRD+A03aM9/C/obbrKjbYSpCmIVG3qT/Q8oeUo3Rz0IL7vI1tEbCB9pSiu8I/aV8x3Kg/BGWrWp4ZVs0nZfmAoEG4h/61yHYIJiFSl6Q0Vk6tTW1N8kYp8hdOkfHYYMXd2Qft+8CYwqYDSKvqIh+MCF8Wgca2u/cwdgeW3TtuVn6+1oBs3yLo5C2JpK6CvQzGpfUkz9UG/87gCsi5o2LIXolxN0FbwAsjOLEr+YJmXn7iR6N0BCt5p5cMxm7eAsfS+/CACQf4CTpKjzgkvr2cVarVTf96372yut7XLJ1sa7lv6VcfgYrWaxqr3Wlo1S6pvStr22sxOtTNPLzdY3nj20bPP+ejFdJYkLsjGLdtPBEbe/mr2bQKiXWJDroA+vtzc0p9aahuwqHMDYrQEXHEw9jwQl3drMpts9JBU1SdktPe5FBRdJQ6bwXBpa57ib2A8kukQDzMjh++Uo7Fo6Wd02Pkf4fknqoo4HtvAIjsqUcjx6DIPgWCaOML9rKI/oqD9/lgNrn+eF+p7j8tnzHBiR7+kdUGw/+V1Kzkc75mMy6U+FMaxjPibiM1U1uGM+puInHpmALZCgP4pt7i840MV8+0R1zPsRB6UTcqpizncYwZ89syDydfyWCwXB1l8/zRNGWbTG/GHKUm9AkxHMc/EGSk3z2+ArEhPEV5TUBLEvUGFcjEUH80J/jveTGOAJEljJbILWGQT3zRYiwuKsUXN1EEJAzBhRJFll7mBUG7KD8EqPkKekBREaL8hMDZLQSG6AQjtHPYmvTQnX0TtpC1SYCe2YdkkyLP3jj5BSbKiuR585eQhTgoje6yIb0Yb0C+mV6EYvebqw5SDy2WmubogZiF2AVxPC2FpDf8H2Q9QWo6IkjUxTWVEI3WY/wrCeSuqJ+eRWzXR/JXwgVjUMozbCOfoEZiSiKVGepqv5CJ8RyR4D7xBeamqa7z3BJ/z17JxuBPdv93d/a2Ki878MMAzDMAzDMAzDMAzDMF/KP09VUmxBAiI3AAAAAElFTkSuQmCC" 
+            width="90"
+            height="90"
+          />
+        </div>
+        <div class="box-inf">
+          <h3 th:text="${user.nome}"></h3>
+          <p th:text="${user.email}"></p>
+          <p>
+            <span>10 seguidores</span>
+            <span>12 seguindo</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="friends">
+        <h6>Amigos:</h6>
+        <div th:each="friend : ${friends}">
+          <img
+            style="border-radius: 50%;"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXk5ueutLfn6eqrsbTp6+zg4uOwtrnJzc/j5earsbW0uby4vcDQ09XGyszU19jd3+G/xMamCvwDAAAFLklEQVR4nO2d2bLbIAxAbYE3sDH//7WFbPfexG4MiCAcnWmnrzkjIRaD2jQMwzAMwzAMwzAMwzAMwzAMwzAMwzAMwzAMwzAMw5wQkHJczewxZh2lhNK/CBOQo1n0JIT74/H/qMV0Z7GU3aCcVPuEE1XDCtVLAhgtpme7H0s1N1U7QjO0L8F7llzGeh1hEG/8Lo7TUmmuSrOfns9xnGXpXxsONPpA/B6OqqstjC6Ax/0ujkNdYQQbKNi2k64qiiEZ+ohi35X+2YcZw/WujmslYewiAliVYrxgJYrdwUmwXsU+RdApUi83oNIE27YvrfB/ZPg8+BJETXnqh9CVzBbTQHgojgiCvtqU9thFJg/CKz3VIMKMEkIXxIWqIpIg2SkjYj+xC816mrJae2aiWGykxRNsW0UwiJghJDljYI5CD8GRiCtIsJxizYUPQ2pzItZy5pcisTRdk/a9m4amtNNfBuQkdVhSaYqfpNTSFGfb9GRIakrE2Pm+GFLaCQPqiu0OpWP+HMPQQcgQMiQprWXNmsVwIjQjYi/ZrhAqNTCgr2gu0Jnz85RSSjso0HkMFZ0YZjKkc26a/jlmh9JiDyDxi9oeorTYAzZkwwoMz19pzj9bnH/GP/+qbchjSGflneWYhtTuKdMOmNKZcJ5TjInQKcYXnESd/jQxy0ENpULTNGOGgxpap/oyw9pbUAqhfx2Dbkhovvfgz4iUzoM9+GlK6/Mh4q29hyC1mwro30hpVVLPF9wYQr71RazOeM5/cw81iBRD+A03aM9/C/obbrKjbYSpCmIVG3qT/Q8oeUo3Rz0IL7vI1tEbCB9pSiu8I/aV8x3Kg/BGWrWp4ZVs0nZfmAoEG4h/61yHYIJiFSl6Q0Vk6tTW1N8kYp8hdOkfHYYMXd2Qft+8CYwqYDSKvqIh+MCF8Wgca2u/cwdgeW3TtuVn6+1oBs3yLo5C2JpK6CvQzGpfUkz9UG/87gCsi5o2LIXolxN0FbwAsjOLEr+YJmXn7iR6N0BCt5p5cMxm7eAsfS+/CACQf4CTpKjzgkvr2cVarVTf96372yut7XLJ1sa7lv6VcfgYrWaxqr3Wlo1S6pvStr22sxOtTNPLzdY3nj20bPP+ejFdJYkLsjGLdtPBEbe/mr2bQKiXWJDroA+vtzc0p9aahuwqHMDYrQEXHEw9jwQl3drMpts9JBU1SdktPe5FBRdJQ6bwXBpa57ib2A8kukQDzMjh++Uo7Fo6Wd02Pkf4fknqoo4HtvAIjsqUcjx6DIPgWCaOML9rKI/oqD9/lgNrn+eF+p7j8tnzHBiR7+kdUGw/+V1Kzkc75mMy6U+FMaxjPibiM1U1uGM+puInHpmALZCgP4pt7i840MV8+0R1zPsRB6UTcqpizncYwZ89syDydfyWCwXB1l8/zRNGWbTG/GHKUm9AkxHMc/EGSk3z2+ArEhPEV5TUBLEvUGFcjEUH80J/jveTGOAJEljJbILWGQT3zRYiwuKsUXN1EEJAzBhRJFll7mBUG7KD8EqPkKekBREaL8hMDZLQSG6AQjtHPYmvTQnX0TtpC1SYCe2YdkkyLP3jj5BSbKiuR585eQhTgoje6yIb0Yb0C+mV6EYvebqw5SDy2WmubogZiF2AVxPC2FpDf8H2Q9QWo6IkjUxTWVEI3WY/wrCeSuqJ+eRWzXR/JXwgVjUMozbCOfoEZiSiKVGepqv5CJ8RyR4D7xBeamqa7z3BJ/z17JxuBPdv93d/a2Ki878MMAzDMAzDMAzDMAzDMF/KP09VUmxBAiI3AAAAAElFTkSuQmCC"
+            width="22"
+            height="22"
+          />
+          <span th:text="${friend.nome}"></span>
+        </div>
+        <br>
+
+        <!-- Button open add friends modal -->
+        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addFriends">
+          Adicionar amigos
+        </button>
+      </div>
+
+      <!-- add friends modal -->
+      <div class="modal fade" id="addFriends" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="addFriendsModal">Adicionar amigos</h1>
+              <button id="addFriendsClose" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addFriendsForm" class="d-flex" role="search">
+                <input id="addFriendsInput" class="form-control me-1" type="search" name="text-input" placeholder="Pesquisar pessoas" aria-label="Search">
+                <button id="addFriendsButton" class="btn btn-primary" type="submit">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+              </form>
+              <br>
+
+              <!-- add friends render -->
+              <table class="table table-striped table-hover">
+                <tbody id="tableBody">
+                  <!-- js render -->
+                </tbody>
+              </table>
+
+            </div>
+            <div class="modal-footer"></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+
+    <section class="feed">
+      <h2>Feed</h2>
+      <!-- card pub -->
+      <div class="card box-shadow" style="width: 45rem;" th:each="pub : ${pubList}">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${pub.name}"></h5>
+          <h6 class="card-subtitle mb-2 text-muted" th:text="${#temporals.format(pub.createdAt, 'dd/MM/yyyy')}"></h6>
+          <p class="card-text" th:text="${pub.text}"></p>
+        </div>
+      </div>
+    </section>
+
+
+
+  </main>
+
+    <!-- Scripts -->
+  <script>
+
+    let searchForm = document.querySelector("#searchForm");
+    let searchInput = document.querySelector('#searchInput');
+    let searchClose = document.querySelector('#searchClose');
+    let resultSearchBox = document.querySelector('#resultSearchBox');
+
+
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      fetch(`http://localhost:8080/toktik/find/${searchInput.value}`, {
+        method: 'GET'
+      })
+      .then(data => data.json())
+      .then(res => {
+        resultSearchBox.innerHTML = ``
+
+        if (res.length > 0) {
+
+          res.forEach(pub => {
+            const date = new Date(pub.createdAt);
+            const formattedDate = date.toLocaleDateString("pt-BR");
+
+            resultSearchBox.innerHTML += `
+              <div class="card" style="width: 28rem; margin-bottom: .5rem">
+                <div class="card-body">
+                  <h5 class="card-title">${pub.name}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">${formattedDate}</h6>
+                  <p class="card-text">${pub.text}</p>
+                </div>
+              </div>
+           `;
+          });
+
+        }
+        else resultSearchBox.innerHTML += `<p>Nenhuma publicação encontrada</p>`
+
+      });
+    });
+
+    searchClose.addEventListener('click', () => {
+      searchInput.value = ``;
+      resultSearchBox.innerHTML = ``;
+    });
+
+    <!-- ------------------------------------------------------------------------------------- -->
+
+    let addFriendsForm = document.querySelector("#addFriendsForm");
+    let addFriendsInput = document.querySelector('#addFriendsInput');
+    let addFriendsClose = document.querySelector('#addFriendsClose');
+    let tableBody = document.querySelector('#tableBody');
+
+
+    addFriendsForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      fetch(`http://localhost:8080/toktik/users/${addFriendsInput.value}`, {
+        method: 'GET'
+      })
+      .then(data => data.json())
+      .then(res => {
+        tableBody.innerHTML = ``
+
+        if (res.length > 0) {
+          let count = 1;
+          res.forEach(user => {
+            tableBody.innerHTML += `
+              <tr>
+                <th scope="col">${count}</th>
+                <td>${user.nome}</td>
+                <td align="right">
+                  <button type="button" class="btn btn-primary btn-sm">Seguir</button>
+                </td>
+              </tr>
+           `;
+            count++;
+          });
+
+        }
+        else tableBody.innerHTML += `<p>Nenhum usuário encontrado</p>`
+
+      });
+    });
+
+    addFriendsClose.addEventListener('click', () => {
+      addFriendsInput.value = ``;
+      tableBody.innerHTML = ``;
+    });
+
+  </script>
+
+  <script src="https://kit.fontawesome.com/0cbc2dbe63.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>
