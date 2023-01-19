@@ -30,7 +30,7 @@ public class FriendsController {
     }
 
     @PatchMapping("/users/add-friend/{friend-id}")
-    public void addFriend(@PathVariable("friend-id") String friendId, HttpSession session) throws GraphException {
+    public ResponseEntity<Void> addFriend(@PathVariable("friend-id") String friendId, HttpSession session) throws GraphException {
 
         User authUser = (User) session.getAttribute("authenticated_user");
 
@@ -40,5 +40,6 @@ public class FriendsController {
                 graph.addEdge(authUser, user);
             }
         }
+        return ResponseEntity.ok().build();
     }
 }

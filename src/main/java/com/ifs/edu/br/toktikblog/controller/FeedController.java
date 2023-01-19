@@ -43,12 +43,14 @@ public class FeedController {
                        myPubs.add(publication);
             });
 
-            var friends = graph.getListOfAdjacentVertices(authUser);
+            var seguindo = graph.getListOfOutputVertices(authUser);
+            var seguidores = graph.getListOfInputVertices(authUser);
 
             model.addAttribute("user", authUser);
             model.addAttribute("pubList", pubs);
             model.addAttribute("myPubs", myPubs);
-            model.addAttribute("friends", friends);
+            model.addAttribute("seguindo", seguindo);
+            model.addAttribute("seguidores", seguidores);
 
             return "feed";
         } else {

@@ -5,22 +5,32 @@ import java.util.LinkedList;
 public class Vertice<T> {
 
     private final T data;
-    private final LinkedList<Edge<T>> adjacencyList;
+    private final LinkedList<Edge<T>> inputEdges;
+    private final LinkedList<Edge<T>> outputEdges;
 
     public Vertice(T data) {
         this.data = data;
-        this.adjacencyList = new LinkedList<>();
-    }
-
-    public void addEdgeAdjacent(Edge<T> edge) {
-        adjacencyList.add(edge);
+        this.inputEdges = new LinkedList<>();
+        this.outputEdges = new LinkedList<>();
     }
 
     public T getData() {
         return data;
     }
 
-    public LinkedList<Edge<T>> getAdjacencyList() {
-        return adjacencyList;
+    public void addInputEdge(Edge<T> edge) {
+        inputEdges.add(edge);
+    }
+
+    public void addOutputEdge(Edge<T> edge) {
+        outputEdges.add(edge);
+    }
+
+    public LinkedList<Edge<T>> getInputEdges() {
+        return inputEdges;
+    }
+
+    public LinkedList<Edge<T>> getOutputEdges() {
+        return outputEdges;
     }
 }

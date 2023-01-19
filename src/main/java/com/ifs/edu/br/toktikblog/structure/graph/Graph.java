@@ -17,6 +17,7 @@ public class Graph<T> {
         edges = new ArrayList<>();
     }
 
+    // cria um novo vertice
     public void addVertice(T data) throws GraphException {
         var contains = this.getVertice(data);
         if (contains != null) throw new GraphException("duplicated vertice");
@@ -25,6 +26,7 @@ public class Graph<T> {
         vertices.add(vertice);
     }
 
+    // adiciona aresta entre dois vertices
     public void addEdge(T origin, T destiny) throws GraphException {
         var verticeOrigin = this.getVertice(origin);
         var verticeDestiny = this.getVertice(destiny);
@@ -32,8 +34,12 @@ public class Graph<T> {
         if (verticeOrigin == null || verticeDestiny == null)
             throw new GraphException("one of the informed vertices does not exist");
 
+        this.existEdge(verticeOrigin, verticeDestiny);
+
+
         Edge<T> edge = new Edge<>(verticeOrigin, verticeDestiny);
-        verticeOrigin.addEdgeAdjacent(edge);
+        verticeOrigin.addOutputEdge(edge);
+        verticeDestiny.addInputEdge(edge);
         edges.add(edge);
     }
 
@@ -45,20 +51,48 @@ public class Graph<T> {
         return null;
     }
 
-    public List<T> getListOfAdjacentVertices(T data) throws GraphException {
+    // verifica se já existe uma aresta entre os dois vértices para
+    // evitar a criação de arestas duplicadas
+    public void existEdge(Vertice<T> origin, Vertice<T> destiny) throws GraphException {
+        for (var edge : edges) {
+            if (edge.origin().equals(origin) && edge.destiny().equals(destiny)){
+                throw new GraphException("existing edge between the two vertices");
+            }
+        }
+    }
+
+    // lista as arestas que estão apontadas para o vértice informado
+    public List<T> getListOfInputVertices(T data) throws GraphException {
         var vertice = getVertice(data);
         if (vertice == null)
             throw new GraphException("vertice does not exist");
 
-        var adjacencyList = vertice.getAdjacencyList();
+        var inputEdgesList = vertice.getInputEdges();
 
-        List<Vertice<T>> adjacentVertices = new LinkedList<>();
-        for (var edge : adjacencyList) {
-            var adjacent = edge.destiny();
-            adjacentVertices.add(adjacent);
+        List<Vertice<T>> inputVerticesList = new ArrayList<>();
+        for (var edge : inputEdgesList) {
+            var inputVertice = edge.origin();
+            inputVerticesList.add(inputVertice);
         }
 
-        return adjacentVertices.stream().map(Vertice::getData).toList();
+        return inputVerticesList.stream().map(Vertice::getData).toList();
+    }
+
+    // lista as arestas para as quais o vértice informado aponta
+    public List<T> getListOfOutputVertices(T data) throws GraphException {
+        var vertice = getVertice(data);
+        if (vertice == null)
+            throw new GraphException("vertice does not exist");
+
+        var outputEdgesList = vertice.getOutputEdges();
+
+        List<Vertice<T>> outputVerticesList = new LinkedList<>();
+        for (var edge : outputEdgesList) {
+            var adjacent = edge.destiny();
+            outputVerticesList.add(adjacent);
+        }
+
+        return outputVerticesList.stream().map(Vertice::getData).toList();
     }
 
     public int sizeVertices() {
@@ -85,7 +119,7 @@ public class Graph<T> {
         for (var verticeOrigin : this.vertices) {
             str.append(verticeOrigin.getData().toString()).append(" -> ");
 
-            for (var edge : verticeOrigin.getAdjacencyList()) {
+            for (var edge : verticeOrigin.getOutputEdges()) {
 
                 Vertice<T> verticeDestiny = edge.destiny();
                 str.append(verticeDestiny.getData().toString()).append(", ");
