@@ -127,7 +127,10 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 
           <!--  mode -->
-          <button type="button" id="buttonMode">mode</button>
+          <button class="btn btn-outline-dark" id="modeButton" onclick="toggleMode()">
+            Dark
+            <i class="fa-solid fa-moon"></i>
+          </button>
 
           <!-- Button open search pub modal -->
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchPub">
@@ -516,6 +519,27 @@
 
     <!-- ------------------------------------------------------------------------------------- -->
 
+
+    function toggleMode() {
+      const body = document.body
+      const button = document.querySelector("#modeButton");
+
+      if (body.hasAttribute("data-bs-theme")) {
+
+        body.removeAttribute("data-bs-theme");
+        button.classList.toggle("btn-outline-dark");
+        button.classList.toggle("btn-outline-light");
+        button.innerHTML = `Dark <i class="fa-solid fa-moon"></i>`;
+
+      } else {
+
+        body.setAttribute("data-bs-theme", "dark");
+        button.classList.toggle("btn-outline-dark");
+        button.classList.toggle("btn-outline-light");
+        button.innerHTML = `Light <i class=\"fa-solid fa-sun\"></i>`;
+
+      }
+    }
 
   </script>
 
