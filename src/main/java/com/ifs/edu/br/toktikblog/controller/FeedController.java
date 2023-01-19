@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/toktik")
@@ -35,10 +37,17 @@ public class FeedController {
             var pubs = invertedFile.getAllPublications();
             Collections.reverse(pubs);
 
+            List<Publication> myPubs = new ArrayList<>();
+            invertedFile.getAllPublications().forEach(publication -> {
+                   if (publication.getUser().equals(authUser))
+                       myPubs.add(publication);
+            });
+
             var friends = graph.getListOfAdjacentVertices(authUser);
 
             model.addAttribute("user", authUser);
             model.addAttribute("pubList", pubs);
+            model.addAttribute("myPubs", myPubs);
             model.addAttribute("friends", friends);
 
             return "feed";
@@ -55,7 +64,7 @@ public class FeedController {
 
         User authUser = (User) session.getAttribute("authenticated_user");
 
-        Publication publication = new Publication(name, text, authUser.getUuid());
+        Publication publication = new Publication(name, text, authUser);
         invertedFile.savePub(publication);
 
         return "redirect:/toktik/feed";

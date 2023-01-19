@@ -49,6 +49,13 @@
       overflow-y: scroll;
     }
 
+    #feedContent, #myPubsContent{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1em;
+    }
+
     .profile .content{
       width: 100%;
       margin-top: 2rem;
@@ -64,7 +71,8 @@
     }
 
     .profile .box-inf h3{
-      font-size: 16pt;
+      font-size: 18pt;
+      font-weight: 700;
     }
     .profile .box-inf p{
       font-size: 12pt;
@@ -76,6 +84,10 @@
     .friends h6{
       font-weight: 700;
       line-height: 3;
+    }
+
+    #logout{
+
     }
 
     .box-shadow{
@@ -105,6 +117,10 @@
           <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createPub">
             Criar publicação
           </button>
+
+          <a id="logout" href="/toktik/logout">
+            <i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i>
+          </a>
 
         </div>
       </div>
@@ -212,7 +228,7 @@
         <br>
 
         <!-- Button open add friends modal -->
-        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addFriends">
+        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addFriends">
           Adicionar amigos
         </button>
       </div>
@@ -252,15 +268,52 @@
 
 
     <section class="feed">
-      <h2>Feed</h2>
-      <!-- card pub -->
-      <div class="card box-shadow" style="width: 45rem;" th:each="pub : ${pubList}">
-        <div class="card-body">
-          <h5 class="card-title" th:text="${pub.name}"></h5>
-          <h6 class="card-subtitle mb-2 text-muted" th:text="${#temporals.format(pub.createdAt, 'dd/MM/yyyy')}"></h6>
-          <p class="card-text" th:text="${pub.text}"></p>
+
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="feed-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Feed</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="myPubs-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Minhas Publicações</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="feed-tab" tabindex="0">
+          <div id="feedContent">
+            <!-- card pub -->
+            <div class="card box-shadow" style="width: 45rem;" th:each="pub : ${pubList}">
+              <div class="card-body">
+                <h5 class="card-title" th:text="${pub.name}"></h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                  <span th:text="${#temporals.format(pub.createdAt, 'dd/MM/yyyy')}"></span>
+                  - <span th:text="${pub.user.nome}"></span>
+                </h6>
+                <p class="card-text" th:text="${pub.text}"></p>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="myPubs-tab" tabindex="0">
+          <div id="myPubsContent">
+            <!-- card pub -->
+            <div class="card box-shadow" style="width: 45rem;" th:each="pub : ${myPubs}">
+              <div class="card-body">
+                <h5 class="card-title" th:text="${pub.name}"></h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                  <span th:text="${#temporals.format(pub.createdAt, 'dd/MM/yyyy')}"></span>
+                  - <span th:text="${pub.user.nome}"></span>
+                </h6>
+                <p class="card-text" th:text="${pub.text}"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
+
     </section>
 
 
@@ -296,7 +349,10 @@
               <div class="card" style="width: 28rem; margin-bottom: .5rem">
                 <div class="card-body">
                   <h5 class="card-title">${pub.name}</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">${formattedDate}</h6>
+                  <h6 class="card-subtitle mb-2 text-muted">
+                    <span>${formattedDate}</span>
+                    - <span>${pub.user.nome}</span>
+                  </h6>
                   <p class="card-text">${pub.text}</p>
                 </div>
               </div>
@@ -340,23 +396,41 @@
                 <th scope="col">${count}</th>
                 <td>${user.nome}</td>
                 <td align="right">
-                  <button type="button" class="btn btn-primary btn-sm">Seguir</button>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    onclick="follow(${user.uuid})"
+                   >
+                   Seguir
+                   </button>
                 </td>
               </tr>
            `;
             count++;
           });
-
         }
         else tableBody.innerHTML += `<p>Nenhum usuário encontrado</p>`
 
       });
     });
 
+    function follow(uuid) {
+      fetch(`http://localhost:8080/toktik/users/add-friend/${uuid}`, {
+        method: 'PATCH'
+      })
+      location.reload()
+    }
+
     addFriendsClose.addEventListener('click', () => {
       addFriendsInput.value = ``;
       tableBody.innerHTML = ``;
     });
+
+    <!-- ------------------------------------------------------------------------------------- -->
+
+    function toggleContent() {
+      alert("teste")
+    }
 
   </script>
 

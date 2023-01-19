@@ -8,7 +8,7 @@ public class Publication {
     private String uuid;
     private String name;
     private String text;
-    private String userUuid;
+    private User user;
     private LocalDateTime createdAt;
 
     public Publication() {
@@ -16,19 +16,19 @@ public class Publication {
         this.uuid = UUID.randomUUID().toString();
     }
 
-    public Publication(String name, String text, String userUuid) {
+    public Publication(String name, String text, User user) {
         this.name = name;
         this.text = text;
-        this.userUuid = userUuid;
+        this.user = user;
         this.createdAt = LocalDateTime.now();
         this.uuid = UUID.randomUUID().toString();
     }
 
-    public Publication(String uuid, String name, String text, String userUuid) {
+    public Publication(String uuid, String name, String text, User user) {
         this.uuid = uuid;
         this.name = name;
         this.text = text;
-        this.userUuid = userUuid;
+        this.user = user;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -56,12 +56,12 @@ public class Publication {
         this.text = text;
     }
 
-    public String getUserUuid() {
-        return userUuid;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserUuid(String userUuid) {
-        this.userUuid = userUuid;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -78,7 +78,7 @@ public class Publication {
                 "uuid=" + uuid +
                 ", name=" + name +
                 ", text=[" + text +
-                "], profileUuid=" + userUuid +
+                "], profileUuid=" + user +
                 ", createdAt=" + createdAt +
                 "}";
     }

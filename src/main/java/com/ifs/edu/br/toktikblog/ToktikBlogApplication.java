@@ -3,6 +3,7 @@ package com.ifs.edu.br.toktikblog;
 import com.ifs.edu.br.toktikblog.context.PersistenceContext;
 import com.ifs.edu.br.toktikblog.models.Publication;
 import com.ifs.edu.br.toktikblog.models.User;
+import com.ifs.edu.br.toktikblog.service.MailService;
 import com.ifs.edu.br.toktikblog.structure.InvertedFile;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +19,6 @@ public class ToktikBlogApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ToktikBlogApplication.class, args);
-
     }
 
     @Bean
@@ -46,16 +46,16 @@ public class ToktikBlogApplication {
             PersistenceContext.userGraph.addEdge(user1, user3);
 
 
-            Publication publication1 = new Publication("1", "Pub 1", "batata frita quente", "1003");
-            Publication publication2 = new Publication("2", "Pub 2", "purê de batata", "1003");
-            Publication publication3 = new Publication("3", "Pub 3", "Carne frita com bacon", "1003");
-            Publication publication4 = new Publication("4", "Pub 1", "Cachorro caramelo", "1002");
-            Publication publication5 = new Publication("5", "Pub 2", "O cachorro da rua morde", "1002");
-            Publication publication6 = new Publication("6", "Pub 3", "O papagaio fala", "1002");
-            Publication publication7 = new Publication("7", "Backend java", "Java e spring, melhor combinação para backend", "1001");
-            Publication publication8 = new Publication("8", "Backend javascript", "NestJs e prisma, são ótimas opções para microserviços", "1001");
-            Publication publication9 = new Publication("9", "Java", "Spring boot facilita o desenvolvimento backend.", "1001");
-            Publication publication10 = new Publication("10", "Java", "Typescript é um javascript turbinado com tipagem", "1001");
+            Publication publication1 = new Publication("1", "Pub 1", "batata frita quente", user3);
+            Publication publication2 = new Publication("2", "Pub 2", "purê de batata", user3);
+            Publication publication3 = new Publication("3", "Pub 3", "Carne frita com bacon", user3);
+            Publication publication4 = new Publication("4", "Pub 1", "Cachorro caramelo", user2);
+            Publication publication5 = new Publication("5", "Pub 2", "O cachorro da rua morde", user2);
+            Publication publication6 = new Publication("6", "Pub 3", "O papagaio fala", user2);
+            Publication publication7 = new Publication("7", "Backend java", "Java e spring, melhor combinação para backend", user1);
+            Publication publication8 = new Publication("8", "Backend javascript", "NestJs e prisma, são ótimas opções para microserviços", user1);
+            Publication publication9 = new Publication("9", "Java", "Spring boot facilita o desenvolvimento backend.", user1);
+            Publication publication10 = new Publication("10", "Java", "Typescript é um javascript turbinado com tipagem", user1);
 
             invertedFile.savePub(publication1);
             invertedFile.savePub(publication2);
