@@ -1,6 +1,7 @@
 package com.ifs.edu.br.toktikblog.service;
 
 import com.ifs.edu.br.toktikblog.context.PersistenceContext;
+import com.ifs.edu.br.toktikblog.models.Publication;
 import com.ifs.edu.br.toktikblog.models.User;
 import com.ifs.edu.br.toktikblog.structure.graph.Graph;
 import com.ifs.edu.br.toktikblog.structure.graph.GraphException;
@@ -24,7 +25,7 @@ public class MailService {
     @Value("${service.mail.gmail_password_app}")
     private String password;
 
-    public void sendMail(User user){
+    public void sendMail(User user, Publication publication){
 
         try {
             Message message = loadConfigsSMPT();
@@ -40,7 +41,8 @@ public class MailService {
 
             message.setRecipients(Message.RecipientType.TO, toUsers);
             message.setSubject("TOKTIK");
-            message.setText(user.getNome() + " acabou de postar uma nova publicação, venha já conferir.");
+            message.setText(user.getNome().toUpperCase() + " acabou de postar a publicação '"
+                    + publication.getName() + "', venha já conferir.");
 
             Transport.send(message);
 

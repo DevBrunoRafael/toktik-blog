@@ -24,26 +24,20 @@ public class ToktikBlogApplication {
     @Bean
     CommandLineRunner run(InvertedFile invertedFile){
         return args -> {
-            User user1 = new User("bruno", "brunorafaeldls2016@gmail.com", "admin1", "1001" );
-            User user2 = new User("bruno acadêmico", "bruno.santos092@academico.ifs.edu.br", "admin2", "1002" );
-            User user3 = new User("bruna", "bruna@gmail.com", "admin3", "1003" );
-            User user4 = new User("marcus", "marcus@gmail.com", "admin4", "1004" );
-            User user5 = new User("marcos", "marcos@gmail.com", "admin5", "1005" );
-            User user6 = new User("jonas", "jonas@gmail.com", "admin6", "1006" );
-            User user7 = new User("scooby", "scooby@gmail.com", "admin7", "1007" );
-            User adm = new User("ADM", "a", "a", "1007" );
+            User user1 = new User("Bruno Rafael", "brunorafaeldls2016@gmail.com", "admin1", "1001" );
+            User user2 = new User("Bruno Acadêmico", "bruno.santos092@academico.ifs.edu.br", "admin2", "1002" );
+            User user3 = new User("Conta hyper", "contahyperxfreefire@gmail.com", "admin3", "1003" );
+            User user4 = new User("Marcus Vinícius", "marcusvini522@gmail.com", "admin4", "1004" );
+
 
             PersistenceContext.userGraph.addVertice(user1);
             PersistenceContext.userGraph.addVertice(user2);
             PersistenceContext.userGraph.addVertice(user3);
             PersistenceContext.userGraph.addVertice(user4);
-            PersistenceContext.userGraph.addVertice(user5);
-            PersistenceContext.userGraph.addVertice(user6);
-            PersistenceContext.userGraph.addVertice(user7);
-            PersistenceContext.userGraph.addVertice(adm);
 
             PersistenceContext.userGraph.addEdge(user1, user2);
             PersistenceContext.userGraph.addEdge(user1, user3);
+            PersistenceContext.userGraph.addEdge(user1, user4);
 
 
             Publication publication1 = new Publication("1", "Pub 1", "batata frita quente", user3);
