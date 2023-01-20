@@ -4,8 +4,13 @@ import java.util.LinkedList;
 
 public class Vertice<T> {
 
+    // dado do vértice
     private final T data;
+
+    // armazena as arestas que estão sendo apontadas para este vértice
     private final LinkedList<Edge<T>> inputEdges;
+
+    // armazena lista de arestas para as quais este vértice aponta
     private final LinkedList<Edge<T>> outputEdges;
 
     public Vertice(T data) {
@@ -14,6 +19,7 @@ public class Vertice<T> {
         this.outputEdges = new LinkedList<>();
     }
 
+    // abaixo estão presentes métodos de acesso aos dados acima
     public T getData() {
         return data;
     }

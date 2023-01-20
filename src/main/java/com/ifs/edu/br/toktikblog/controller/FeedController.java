@@ -34,6 +34,7 @@ public class FeedController {
 
     private Graph<User> graph = PersistenceContext.userGraph;
 
+    // retorna feed contendo todas as informações do usuário
     @GetMapping("/feed")
     public String feed(HttpSession session, Model model) throws GraphException {
 
@@ -41,7 +42,7 @@ public class FeedController {
 
         if (authUser != null) {
             var pubs = invertedFile.getAllPublications();
-            Collections.sort(pubs, Comparator.comparing(Publication::getCreatedAt));
+            pubs.sort(Comparator.comparing(Publication::getCreatedAt));
             Collections.reverse(pubs);
 
 
@@ -50,7 +51,7 @@ public class FeedController {
                    if (publication.getUser().equals(authUser))
                        myPubs.add(publication);
             });
-            Collections.sort(myPubs, Comparator.comparing(Publication::getCreatedAt));
+            myPubs.sort(Comparator.comparing(Publication::getCreatedAt));
             Collections.reverse(myPubs);
 
             var seguindo = graph.getListOfOutputVertices(authUser);
@@ -68,6 +69,7 @@ public class FeedController {
         }
     }
 
+    // cria nova publicação
     @PostMapping("/new-pub")
     public String savePublication(@RequestParam("name") String name,
                                 @RequestParam("text") String text,

@@ -37,12 +37,14 @@ public class MailService {
             var amigos = graph.getListOfOutputVertices(user);
 
             var emailList = getUsersEmail(amigos);
+
+            // passa a lista de emails dos amigos do usuário
             Address[] toUsers = InternetAddress.parse(emailList);
 
             message.setRecipients(Message.RecipientType.TO, toUsers);
-            message.setSubject("TOKTIK");
+            message.setSubject("TOKTIK"); // assunto
             message.setText(user.getNome().toUpperCase() + " acabou de postar a publicação '"
-                    + publication.getName() + "', venha já conferir.");
+                    + publication.getName() + "', venha já conferir."); // mensagem
 
             Transport.send(message);
 
@@ -51,8 +53,8 @@ public class MailService {
         }
     }
 
-    // extrai email dos usuários e monta uma string contendo todos
-    // os emails.
+    // extrai email dos amigos do usuário e monta uma string contendo todos
+    // os emails separados por ','.
     private String getUsersEmail(List<User> users) {
         StringBuilder emailList = new StringBuilder();
         for (User user : users) {

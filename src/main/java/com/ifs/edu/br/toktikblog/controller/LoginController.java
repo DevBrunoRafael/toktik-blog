@@ -17,11 +17,13 @@ public class LoginController {
 
     private Graph<User> graph = PersistenceContext.userGraph;
 
+    // retorna página de login
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
+    // loga usuário utilizando a criação de sessão
     @PostMapping("/login")
     public String logar(@RequestParam("email") String email,
                       @RequestParam("senha") String senha,

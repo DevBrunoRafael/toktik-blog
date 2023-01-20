@@ -17,18 +17,22 @@ public class FriendsController {
 
     private Graph<User> graph = PersistenceContext.userGraph;
 
+    // busca e retorna usuários pelo nome
     @GetMapping("/users/{name}")
     public ResponseEntity<List<User>> findUsersByName(@PathVariable("name") String name) {
         List<User> opcoes = new ArrayList<>();
 
         graph.allVertices().forEach(vertice -> {
             User user = vertice.getData();
-            if (user.getNome().contains(name)) opcoes.add(user);
+            var usernameLowerCase = user.getNome().toLowerCase();
+            var nameLowerCase = name.toLowerCase();
+            if (usernameLowerCase.contains(nameLowerCase)) opcoes.add(user);
         });
 
         return ResponseEntity.status(HttpStatus.OK).body(opcoes);
     }
 
+    // adiciona usuários a lista de amigos(lista de vértices adjacentes)
     @PatchMapping("/users/add-friend/{friend-id}")
     public ResponseEntity<Void> addFriend(@PathVariable("friend-id") String friendId, HttpSession session) throws GraphException {
 

@@ -16,11 +16,13 @@ public class RegisterController {
 
     private Graph<User> graph = PersistenceContext.userGraph;
 
+    // retorna página de cadastro
     @GetMapping("/register")
     public String register() {
         return "register";
     }
 
+    // faz o cadastro de usuários
     @PostMapping("/register")
     public String register(@RequestParam("nome") String nome,
                          @RequestParam("email") String email,

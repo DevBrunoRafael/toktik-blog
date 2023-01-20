@@ -9,7 +9,10 @@ import java.util.List;
 @Component
 public class Graph<T> {
 
+    // vertices presentes no grafo
     private final List<Vertice<T>> vertices;
+
+    // arestas presentes no grafo
     private final List<Edge<T>> edges;
 
     public Graph() {
@@ -43,6 +46,7 @@ public class Graph<T> {
         edges.add(edge);
     }
 
+    // busca por um vértice especifico
     public Vertice<T> getVertice(T data) {
         for (var vertice : this.vertices) {
             if (vertice.getData().equals(data))
@@ -94,6 +98,8 @@ public class Graph<T> {
 
         return outputVerticesList.stream().map(Vertice::getData).toList();
     }
+
+    // abaixo são métodos de acesso aos dados dos atributos
 
     public int sizeVertices() {
         return this.vertices.size();

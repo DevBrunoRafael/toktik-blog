@@ -8,6 +8,8 @@ import java.util.HashMap;
 public class PersistenceContext {
 
     public static Graph<User> userGraph = new Graph<>();
+
+    // estrutura que simula o armazenamento em txt
     public static HashMap<String, Publication> publications = new HashMap<>();
 
 }

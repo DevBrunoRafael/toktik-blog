@@ -16,6 +16,7 @@ public class FindPublicationsController {
     @Autowired
     private InvertedFile invertedFile;
 
+    // busca e retorna publicações de acordo com texto ou palavra informada
     @GetMapping("/find/{text-input}")
     public ResponseEntity<List<Publication>> findPublications(@PathVariable("text-input") String textInput) {
         var response = invertedFile.findByTextFragment(textInput);
