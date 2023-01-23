@@ -34,11 +34,11 @@ Projeto desenvolvido na disciplina de estrutura de dados 2, trata-se da criaçã
 
 ## Visão Geral
 <div>
-  <img width="500" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/login.png" alt="">
-  <img width="500" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/cadastro.png" alt="">
-  <img width="500" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/feed.png" alt="">
-  <img width="500" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/buscar-pb.png" alt="">
-  <img width="500" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/criar-pub.png" alt="">
-  <img width="500" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/adiciona-amigo.png" alt="">
-  <img width="500" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/seguidores-seguindo.png" alt="">
+  <img width="800" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/login.png" alt="">
+  <img width="800" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/cadastro.png" alt="">
+  <img width="800" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/feed.png" alt="">
+  <img width="800" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/buscar-pb.png" alt="">
+  <img width="800" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/criar-pub.png" alt="">
+  <img width="800" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/adiciona-amigo.png" alt="">
+  <img width="800" src="https://github.com/DevBrunoRafael/toktik-blog/blob/master/screenshots/seguidores-seguindo.png" alt="">
 </div>
